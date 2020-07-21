@@ -1,0 +1,2318 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/activity/publish",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/trigger/rest"
+    ],
+    "name": "Telemetry",
+    "description": " ",
+    "version": "1.1.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "feVersion": "2.8.1",
+    "triggers": [
+        {
+            "ref": "#rest",
+            "name": "tibco-wi-rest",
+            "description": "Simple REST Trigger",
+            "settings": {
+                "port": 7090,
+                "APISpecUpdate": false,
+                "swagger": "",
+                "secureConnection": false,
+                "serverKey": "",
+                "caCertificate": ""
+            },
+            "id": "ReceiveHTTPMessage",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "POST",
+                        "Path": "/position",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:Position"
+                        },
+                        "input": {
+                            "body": {
+                                "mapping": {
+                                    "longitude": "=$.body.longitude",
+                                    "abs_altitude": "=$.body.abs_altitude",
+                                    "rel_altitude": "=$.body.rel_altitude",
+                                    "latitude": "=$.body.latitude"
+                                }
+                            },
+                            "headers": "=$.headers"
+                        },
+                        "output": {
+                            "message": "OK",
+                            "code": "=$.code"
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": false,
+                        "message": {}
+                    },
+                    "schemas": {
+                        "reply": {},
+                        "output": {
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            },
+                            "body": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"abs_altitude\":{\"type\":\"number\"},\"rel_altitude\":{\"type\":\"number\"}}}",
+                                "fe_metadata": "{\n\t\"latitude\" : 10.10,\n\t\"longitude\" : 10.10,\n\t\"abs_altitude\" : 10.10,\n\t\"rel_altitude\" : 10.10\n}"
+                            }
+                        }
+                    }
+                },
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "POST",
+                        "Path": "/battery",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:Battery"
+                        },
+                        "input": {
+                            "body": {
+                                "mapping": {
+                                    "voltage": "=$.body.voltage",
+                                    "remaining_percent": "=$.body.remaining_percent"
+                                }
+                            }
+                        },
+                        "output": {
+                            "code": "=$.code",
+                            "message": "=$.message"
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": false,
+                        "message": {}
+                    },
+                    "schemas": {
+                        "reply": {},
+                        "output": {
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            },
+                            "body": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"voltage\":{\"type\":\"number\"},\"remaining_percent\":{\"type\":\"number\"}}}",
+                                "fe_metadata": "{\n  \"voltage\" : 10.10,\n  \"remaining_percent\" : 10.10\n}"
+                            }
+                        }
+                    }
+                },
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "POST",
+                        "Path": "/gpsinfo",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:GPSInfo"
+                        },
+                        "input": {
+                            "body": {
+                                "mapping": {
+                                    "fix_type": "=$.body.fix_type",
+                                    "num_satellites": "=$.body.num_satellites"
+                                }
+                            }
+                        },
+                        "output": {
+                            "code": "=$.code",
+                            "message": "=$.message"
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": false,
+                        "message": {}
+                    },
+                    "schemas": {
+                        "reply": {},
+                        "output": {
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            },
+                            "body": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"fix_type\":{\"type\":\"string\"},\"num_satellites\":{\"type\":\"number\"}}}",
+                                "fe_metadata": "{\n\"fix_type\" : \"type\",\n\"num_satellites\" : 10\n}"
+                            }
+                        }
+                    }
+                },
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "POST",
+                        "Path": "/homepostion",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:HomePosition"
+                        },
+                        "input": {
+                            "body": {
+                                "mapping": {
+                                    "latitude": "=$.body.latitude",
+                                    "longitude": "=$.body.longitude",
+                                    "abs_altitude": "=$.body.abs_altitude",
+                                    "rel_altitude": "=$.body.rel_altitude"
+                                }
+                            }
+                        },
+                        "output": {
+                            "code": "=$.code",
+                            "message": "=$.message"
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": false,
+                        "message": {}
+                    },
+                    "schemas": {
+                        "reply": {},
+                        "output": {
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            },
+                            "body": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"abs_altitude\":{\"type\":\"number\"},\"rel_altitude\":{\"type\":\"number\"}}}",
+                                "fe_metadata": "{\n   \"latitude\" : 10.1,\n   \"longitude\" : 10.1,\n   \"abs_altitude\" : 10.1,\n   \"rel_altitude\" : 10.1\n}"
+                            }
+                        }
+                    }
+                },
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "POST",
+                        "Path": "/fixedwingmetrics",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:FixedWingMetrics"
+                        },
+                        "input": {
+                            "body": {
+                                "mapping": {
+                                    "airspeed": "=$.body.airspeed",
+                                    "climb_rate": "=$.body.climb_rate",
+                                    "throttle": "=$.body.throttle"
+                                }
+                            }
+                        },
+                        "output": {
+                            "message": "=$.message",
+                            "code": "=$.code"
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": false,
+                        "message": {}
+                    },
+                    "schemas": {
+                        "reply": {},
+                        "output": {
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            },
+                            "body": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"airspeed\":{\"type\":\"number\"},\"climb_rate\":{\"type\":\"number\"},\"throttle\":{\"type\":\"number\"}}}",
+                                "fe_metadata": "{\n   \"airspeed\" : 10.1,\n   \"climb_rate\" : 10.1,\n   \"throttle\" : 10.1\n}"
+                            }
+                        }
+                    }
+                },
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "POST",
+                        "Path": "/isarmed",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:IsArmed"
+                        },
+                        "input": {
+                            "body": {
+                                "mapping": {
+                                    "armed": "=$.body.armed"
+                                }
+                            }
+                        },
+                        "output": {
+                            "message": "=$.message",
+                            "code": "=$.code"
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": false,
+                        "message": {}
+                    },
+                    "schemas": {
+                        "reply": {},
+                        "output": {
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            },
+                            "body": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"armed\":{\"type\":\"string\"}}}",
+                                "fe_metadata": "{\n    \"armed\" : \"true\"\n}"
+                            }
+                        }
+                    }
+                },
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "POST",
+                        "Path": "/flightmode",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:FlightMode"
+                        },
+                        "input": {
+                            "body": {
+                                "mapping": {
+                                    "flight_mode": "=$.body.flight_mode"
+                                }
+                            }
+                        },
+                        "output": {
+                            "code": "=$.code",
+                            "message": "=$.message"
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": false,
+                        "message": {}
+                    },
+                    "schemas": {
+                        "reply": {},
+                        "output": {
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            },
+                            "body": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"flight_mode\":{\"type\":\"string\"}}}",
+                                "fe_metadata": "{\n   \"flight_mode\" : \"mode\"\n}"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "id": "flow:Position",
+            "data": {
+                "name": "Position",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "MQTTPub",
+                        "to": "Return",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "MQTTPub",
+                        "name": "MQTTPub",
+                        "description": "An MQTT message publisher",
+                        "activity": {
+                            "ref": "#publish",
+                            "input": {
+                                "Connection": {
+                                    "id": "73031330-ada2-11ea-814f-39f6184b81d1",
+                                    "type": "flogo:connector",
+                                    "version": "1.1.0",
+                                    "name": "connection",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "MQTT Connector",
+                                    "description": "MQTT Connector",
+                                    "ref": "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/connector/connection",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "visible": true
+                                            },
+                                            "value": "streamhub"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "visible": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "broker",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Broker URL",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "Description": "Enter a broker URL in the form '<protocol>://<host>:<port>'"
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Broker_URL\"]"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Username",
+                                                "visible": true,
+                                                "Description": "Enter a username if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Username\"]"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Password",
+                                                "visible": true,
+                                                "type": "password",
+                                                "encryptable": true,
+                                                "Description": "Enter a password if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Password\"]"
+                                        },
+                                        {
+                                            "name": "encryptionMode",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Encryption Mode",
+                                                "description": "Choose the type of authentication to use",
+                                                "appPropertySupport": true
+                                            },
+                                            "allowed": [
+                                                "None",
+                                                "TLS-Cert",
+                                                "TLS-ClientAuth"
+                                            ],
+                                            "value": "=$property[\"Mqtt.streamhub.Encryption_Mode\"]"
+                                        },
+                                        {
+                                            "name": "cacert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Cacert",
+                                                "description": "Select the CA certificate file used to sign the broker's certificate",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientcert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Cert",
+                                                "description": "Select the client certificate file for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientkey",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Key",
+                                                "description": "Select the client key file used for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".key",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "Tibco",
+                                    "key": "Tibco/Mqtt/connector/connection/connector.json",
+                                    "display": {
+                                        "description": "MQTT Connector",
+                                        "category": "Mqtt",
+                                        "smallIcon": "icons/mqtt.png",
+                                        "largeIcon": "icons/mqtt.png",
+                                        "visible": true
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Save"
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1594042482520,
+                                    "user": "flogo",
+                                    "connectorName": "streamhub",
+                                    "connectorDescription": " "
+                                },
+                                "topic": "drone/position",
+                                "retain": false,
+                                "qos": 0,
+                                "valueType": "JSON",
+                                "stringValue": "",
+                                "jsonValue": {
+                                    "mapping": {
+                                        "latitude": "=$flow.body.latitude",
+                                        "longitude": "=$flow.body.longitude",
+                                        "abs_altitude": "=$flow.body.abs_altitude",
+                                        "rel_altitude": "=$flow.body.rel_altitude",
+                                        "drone_id": "=$property[\"drone-id\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "jsonValue": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"drone_id\":{\"type\":\"string\"},\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"abs_altitude\":{\"type\":\"number\"},\"rel_altitude\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\n    \"drone_id\" : \"123\",\n\t\"latitude\" : 10.10,\n\t\"longitude\" : 10.10,\n\t\"abs_altitude\" : 10.10,\n\t\"rel_altitude\" : 10.10\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "code": 200,
+                                    "message": "OK"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "headers",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
+                            }
+                        },
+                        {
+                            "name": "body",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"abs_altitude\":{\"type\":\"number\"},\"rel_altitude\":{\"type\":\"number\"}}"
+                            }
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "code",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "message",
+                            "type": "string"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]},\"body\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"abs_altitude\":{\"type\":\"number\"},\"rel_altitude\":{\"type\":\"number\"}}}}}",
+                        "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"message\":{\"type\":\"string\",\"required\":false}},\"required\":[]}"
+                    }
+                },
+                "explicitReply": true
+            }
+        },
+        {
+            "id": "flow:Battery",
+            "data": {
+                "name": "Battery",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "MQTTPub",
+                        "to": "Return",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "MQTTPub",
+                        "name": "MQTTPub",
+                        "description": "An MQTT message publisher",
+                        "activity": {
+                            "ref": "#publish",
+                            "input": {
+                                "Connection": {
+                                    "id": "73031330-ada2-11ea-814f-39f6184b81d1",
+                                    "type": "flogo:connector",
+                                    "version": "1.1.0",
+                                    "name": "connection",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "MQTT Connector",
+                                    "description": "MQTT Connector",
+                                    "ref": "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/connector/connection",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "visible": true
+                                            },
+                                            "value": "streamhub"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "visible": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "broker",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Broker URL",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "Description": "Enter a broker URL in the form '<protocol>://<host>:<port>'"
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Broker_URL\"]"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Username",
+                                                "visible": true,
+                                                "Description": "Enter a username if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Username\"]"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Password",
+                                                "visible": true,
+                                                "type": "password",
+                                                "encryptable": true,
+                                                "Description": "Enter a password if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Password\"]"
+                                        },
+                                        {
+                                            "name": "encryptionMode",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Encryption Mode",
+                                                "description": "Choose the type of authentication to use",
+                                                "appPropertySupport": true
+                                            },
+                                            "allowed": [
+                                                "None",
+                                                "TLS-Cert",
+                                                "TLS-ClientAuth"
+                                            ],
+                                            "value": "=$property[\"Mqtt.streamhub.Encryption_Mode\"]"
+                                        },
+                                        {
+                                            "name": "cacert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Cacert",
+                                                "description": "Select the CA certificate file used to sign the broker's certificate",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientcert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Cert",
+                                                "description": "Select the client certificate file for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientkey",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Key",
+                                                "description": "Select the client key file used for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".key",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "Tibco",
+                                    "key": "Tibco/Mqtt/connector/connection/connector.json",
+                                    "display": {
+                                        "description": "MQTT Connector",
+                                        "category": "Mqtt",
+                                        "smallIcon": "icons/mqtt.png",
+                                        "largeIcon": "icons/mqtt.png",
+                                        "visible": true
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Save"
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1594042482520,
+                                    "user": "flogo",
+                                    "connectorName": "streamhub",
+                                    "connectorDescription": " "
+                                },
+                                "topic": "drone/battery",
+                                "retain": false,
+                                "qos": 0,
+                                "valueType": "JSON",
+                                "stringValue": "",
+                                "jsonValue": {
+                                    "mapping": {
+                                        "voltage": "=$flow.body.voltage",
+                                        "remaining_percent": "=$flow.body.remaining_percent",
+                                        "drone_id": "=$property[\"drone-id\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "jsonValue": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"drone_id\":{\"type\":\"string\"},\"voltage\":{\"type\":\"number\"},\"remaining_percent\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\n  \"drone_id\" : \"123\",\n  \"voltage\" : 10.10,\n  \"remaining_percent\" : 10.10\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "code": 200,
+                                    "message": "OK"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "headers",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
+                            }
+                        },
+                        {
+                            "name": "body",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"voltage\":{\"type\":\"number\"},\"remaining_percent\":{\"type\":\"number\"}}"
+                            }
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "code",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "message",
+                            "type": "string"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]},\"body\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"voltage\":{\"type\":\"number\"},\"remaining_percent\":{\"type\":\"number\"}}}}}",
+                        "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"message\":{\"type\":\"string\",\"required\":false}},\"required\":[]}"
+                    }
+                },
+                "explicitReply": true
+            }
+        },
+        {
+            "id": "flow:GPSInfo",
+            "data": {
+                "name": "GPSInfo",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "MQTTPub",
+                        "to": "Return",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "MQTTPub",
+                        "name": "MQTTPub",
+                        "description": "An MQTT message publisher",
+                        "activity": {
+                            "ref": "#publish",
+                            "input": {
+                                "Connection": {
+                                    "id": "73031330-ada2-11ea-814f-39f6184b81d1",
+                                    "type": "flogo:connector",
+                                    "version": "1.1.0",
+                                    "name": "connection",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "MQTT Connector",
+                                    "description": "MQTT Connector",
+                                    "ref": "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/connector/connection",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "visible": true
+                                            },
+                                            "value": "streamhub"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "visible": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "broker",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Broker URL",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "Description": "Enter a broker URL in the form '<protocol>://<host>:<port>'"
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Broker_URL\"]"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Username",
+                                                "visible": true,
+                                                "Description": "Enter a username if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Username\"]"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Password",
+                                                "visible": true,
+                                                "type": "password",
+                                                "encryptable": true,
+                                                "Description": "Enter a password if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Password\"]"
+                                        },
+                                        {
+                                            "name": "encryptionMode",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Encryption Mode",
+                                                "description": "Choose the type of authentication to use",
+                                                "appPropertySupport": true
+                                            },
+                                            "allowed": [
+                                                "None",
+                                                "TLS-Cert",
+                                                "TLS-ClientAuth"
+                                            ],
+                                            "value": "=$property[\"Mqtt.streamhub.Encryption_Mode\"]"
+                                        },
+                                        {
+                                            "name": "cacert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Cacert",
+                                                "description": "Select the CA certificate file used to sign the broker's certificate",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientcert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Cert",
+                                                "description": "Select the client certificate file for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientkey",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Key",
+                                                "description": "Select the client key file used for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".key",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "Tibco",
+                                    "key": "Tibco/Mqtt/connector/connection/connector.json",
+                                    "display": {
+                                        "description": "MQTT Connector",
+                                        "category": "Mqtt",
+                                        "smallIcon": "icons/mqtt.png",
+                                        "largeIcon": "icons/mqtt.png",
+                                        "visible": true
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Save"
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1594042482520,
+                                    "user": "flogo",
+                                    "connectorName": "streamhub",
+                                    "connectorDescription": " "
+                                },
+                                "topic": "drone/gpsinfo",
+                                "retain": false,
+                                "qos": 0,
+                                "valueType": "JSON",
+                                "stringValue": "",
+                                "jsonValue": {
+                                    "mapping": {
+                                        "fix_type": "=$flow.body.fix_type",
+                                        "num_satellites": "=$flow.body.num_satellites",
+                                        "drone_id": "=$property[\"drone-id\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "jsonValue": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"drone_id\":{\"type\":\"string\"},\"fix_type\":{\"type\":\"string\"},\"num_satellites\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\n\"drone_id\" : \"123\",\n\"fix_type\" : \"type\",\n\"num_satellites\" : 10\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "code": 200,
+                                    "message": "OK"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "headers",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
+                            }
+                        },
+                        {
+                            "name": "body",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"fix_type\":{\"type\":\"string\"},\"num_satellites\":{\"type\":\"number\"}}"
+                            }
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "code",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "message",
+                            "type": "string"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]},\"body\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"fix_type\":{\"type\":\"string\"},\"num_satellites\":{\"type\":\"number\"}}}}}",
+                        "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"message\":{\"type\":\"string\",\"required\":false}},\"required\":[]}"
+                    }
+                },
+                "explicitReply": true
+            }
+        },
+        {
+            "id": "flow:HomePosition",
+            "data": {
+                "name": "HomePosition",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "MQTTPub",
+                        "to": "Return",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "MQTTPub",
+                        "name": "MQTTPub",
+                        "description": "An MQTT message publisher",
+                        "activity": {
+                            "ref": "#publish",
+                            "input": {
+                                "Connection": {
+                                    "id": "73031330-ada2-11ea-814f-39f6184b81d1",
+                                    "type": "flogo:connector",
+                                    "version": "1.1.0",
+                                    "name": "connection",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "MQTT Connector",
+                                    "description": "MQTT Connector",
+                                    "ref": "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/connector/connection",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "visible": true
+                                            },
+                                            "value": "streamhub"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "visible": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "broker",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Broker URL",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "Description": "Enter a broker URL in the form '<protocol>://<host>:<port>'"
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Broker_URL\"]"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Username",
+                                                "visible": true,
+                                                "Description": "Enter a username if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Username\"]"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Password",
+                                                "visible": true,
+                                                "type": "password",
+                                                "encryptable": true,
+                                                "Description": "Enter a password if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Password\"]"
+                                        },
+                                        {
+                                            "name": "encryptionMode",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Encryption Mode",
+                                                "description": "Choose the type of authentication to use",
+                                                "appPropertySupport": true
+                                            },
+                                            "allowed": [
+                                                "None",
+                                                "TLS-Cert",
+                                                "TLS-ClientAuth"
+                                            ],
+                                            "value": "=$property[\"Mqtt.streamhub.Encryption_Mode\"]"
+                                        },
+                                        {
+                                            "name": "cacert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Cacert",
+                                                "description": "Select the CA certificate file used to sign the broker's certificate",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientcert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Cert",
+                                                "description": "Select the client certificate file for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientkey",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Key",
+                                                "description": "Select the client key file used for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".key",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "Tibco",
+                                    "key": "Tibco/Mqtt/connector/connection/connector.json",
+                                    "display": {
+                                        "description": "MQTT Connector",
+                                        "category": "Mqtt",
+                                        "smallIcon": "icons/mqtt.png",
+                                        "largeIcon": "icons/mqtt.png",
+                                        "visible": true
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Save"
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1594042482520,
+                                    "user": "flogo",
+                                    "connectorName": "streamhub",
+                                    "connectorDescription": " "
+                                },
+                                "topic": "drone/homeposition",
+                                "retain": false,
+                                "qos": 0,
+                                "valueType": "JSON",
+                                "stringValue": "",
+                                "jsonValue": {
+                                    "mapping": {
+                                        "longitude": "=$flow.body.longitude",
+                                        "abs_altitude": "=$flow.body.abs_altitude",
+                                        "rel_altitude": "=$flow.body.rel_altitude",
+                                        "latitude": "=$flow.body.latitude",
+                                        "drone_id": "=$property[\"drone-id\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "jsonValue": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"drone_id\":{\"type\":\"string\"},\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"abs_altitude\":{\"type\":\"number\"},\"rel_altitude\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\n    \"drone_id\" : \"123\",\n   \"latitude\" : 10.1,\n   \"longitude\" : 10.1,\n   \"abs_altitude\" : 10.1,\n   \"rel_altitude\" : 10.1\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "code": 200,
+                                    "message": "OK"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "headers",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
+                            }
+                        },
+                        {
+                            "name": "body",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"abs_altitude\":{\"type\":\"number\"},\"rel_altitude\":{\"type\":\"number\"}}"
+                            }
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "code",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "message",
+                            "type": "string"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]},\"body\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"abs_altitude\":{\"type\":\"number\"},\"rel_altitude\":{\"type\":\"number\"}}}}}",
+                        "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"message\":{\"type\":\"string\",\"required\":false}},\"required\":[]}"
+                    }
+                },
+                "explicitReply": true
+            }
+        },
+        {
+            "id": "flow:FixedWingMetrics",
+            "data": {
+                "name": "FixedWingMetrics",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "MQTTPub",
+                        "to": "Return",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "MQTTPub",
+                        "name": "MQTTPub",
+                        "description": "An MQTT message publisher",
+                        "activity": {
+                            "ref": "#publish",
+                            "input": {
+                                "Connection": {
+                                    "id": "73031330-ada2-11ea-814f-39f6184b81d1",
+                                    "type": "flogo:connector",
+                                    "version": "1.1.0",
+                                    "name": "connection",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "MQTT Connector",
+                                    "description": "MQTT Connector",
+                                    "ref": "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/connector/connection",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "visible": true
+                                            },
+                                            "value": "streamhub"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "visible": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "broker",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Broker URL",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "Description": "Enter a broker URL in the form '<protocol>://<host>:<port>'"
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Broker_URL\"]"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Username",
+                                                "visible": true,
+                                                "Description": "Enter a username if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Username\"]"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Password",
+                                                "visible": true,
+                                                "type": "password",
+                                                "encryptable": true,
+                                                "Description": "Enter a password if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Password\"]"
+                                        },
+                                        {
+                                            "name": "encryptionMode",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Encryption Mode",
+                                                "description": "Choose the type of authentication to use",
+                                                "appPropertySupport": true
+                                            },
+                                            "allowed": [
+                                                "None",
+                                                "TLS-Cert",
+                                                "TLS-ClientAuth"
+                                            ],
+                                            "value": "=$property[\"Mqtt.streamhub.Encryption_Mode\"]"
+                                        },
+                                        {
+                                            "name": "cacert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Cacert",
+                                                "description": "Select the CA certificate file used to sign the broker's certificate",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientcert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Cert",
+                                                "description": "Select the client certificate file for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientkey",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Key",
+                                                "description": "Select the client key file used for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".key",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "Tibco",
+                                    "key": "Tibco/Mqtt/connector/connection/connector.json",
+                                    "display": {
+                                        "description": "MQTT Connector",
+                                        "category": "Mqtt",
+                                        "smallIcon": "icons/mqtt.png",
+                                        "largeIcon": "icons/mqtt.png",
+                                        "visible": true
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Save"
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1594042482520,
+                                    "user": "flogo",
+                                    "connectorName": "streamhub",
+                                    "connectorDescription": " "
+                                },
+                                "topic": "drone/fixedwingmetrics",
+                                "retain": false,
+                                "qos": 0,
+                                "valueType": "JSON",
+                                "stringValue": "",
+                                "jsonValue": {
+                                    "mapping": {
+                                        "airspeed": "=$flow.body.airspeed",
+                                        "climb_rate": "=$flow.body.climb_rate",
+                                        "throttle": "=$flow.body.throttle",
+                                        "drone_id": "=$property[\"drone-id\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "jsonValue": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"drone_id\":{\"type\":\"string\"},\"airspeed\":{\"type\":\"number\"},\"climb_rate\":{\"type\":\"number\"},\"throttle\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\n    \"drone_id\" : \"123\",\n   \"airspeed\" : 10.1,\n   \"climb_rate\" : 10.1,\n   \"throttle\" : 10.1\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "code": 200,
+                                    "message": "OK"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "headers",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
+                            }
+                        },
+                        {
+                            "name": "body",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"airspeed\":{\"type\":\"number\"},\"climb_rate\":{\"type\":\"number\"},\"throttle\":{\"type\":\"number\"}}"
+                            }
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "code",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "message",
+                            "type": "string"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]},\"body\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"airspeed\":{\"type\":\"number\"},\"climb_rate\":{\"type\":\"number\"},\"throttle\":{\"type\":\"number\"}}}}}",
+                        "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"message\":{\"type\":\"string\",\"required\":false}},\"required\":[]}"
+                    }
+                },
+                "explicitReply": true
+            }
+        },
+        {
+            "id": "flow:IsArmed",
+            "data": {
+                "name": "IsArmed",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "MQTTPub",
+                        "to": "Return",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "MQTTPub",
+                        "name": "MQTTPub",
+                        "description": "An MQTT message publisher",
+                        "activity": {
+                            "ref": "#publish",
+                            "input": {
+                                "Connection": {
+                                    "id": "73031330-ada2-11ea-814f-39f6184b81d1",
+                                    "type": "flogo:connector",
+                                    "version": "1.1.0",
+                                    "name": "connection",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "MQTT Connector",
+                                    "description": "MQTT Connector",
+                                    "ref": "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/connector/connection",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "visible": true
+                                            },
+                                            "value": "streamhub"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "visible": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "broker",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Broker URL",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "Description": "Enter a broker URL in the form '<protocol>://<host>:<port>'"
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Broker_URL\"]"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Username",
+                                                "visible": true,
+                                                "Description": "Enter a username if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Username\"]"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Password",
+                                                "visible": true,
+                                                "type": "password",
+                                                "encryptable": true,
+                                                "Description": "Enter a password if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Password\"]"
+                                        },
+                                        {
+                                            "name": "encryptionMode",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Encryption Mode",
+                                                "description": "Choose the type of authentication to use",
+                                                "appPropertySupport": true
+                                            },
+                                            "allowed": [
+                                                "None",
+                                                "TLS-Cert",
+                                                "TLS-ClientAuth"
+                                            ],
+                                            "value": "=$property[\"Mqtt.streamhub.Encryption_Mode\"]"
+                                        },
+                                        {
+                                            "name": "cacert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Cacert",
+                                                "description": "Select the CA certificate file used to sign the broker's certificate",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientcert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Cert",
+                                                "description": "Select the client certificate file for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientkey",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Key",
+                                                "description": "Select the client key file used for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".key",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "Tibco",
+                                    "key": "Tibco/Mqtt/connector/connection/connector.json",
+                                    "display": {
+                                        "description": "MQTT Connector",
+                                        "category": "Mqtt",
+                                        "smallIcon": "icons/mqtt.png",
+                                        "largeIcon": "icons/mqtt.png",
+                                        "visible": true
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Save"
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1594042482520,
+                                    "user": "flogo",
+                                    "connectorName": "streamhub",
+                                    "connectorDescription": " "
+                                },
+                                "topic": "drone/isarmed",
+                                "retain": false,
+                                "qos": 0,
+                                "valueType": "JSON",
+                                "stringValue": "",
+                                "jsonValue": {
+                                    "mapping": {
+                                        "armed": "=$flow.body.armed",
+                                        "drone_id": "=$property[\"drone-id\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "jsonValue": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"drone_id\":{\"type\":\"string\"},\"armed\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\n    \"drone_id\" : \"123\",\n   \"armed\" : \"true\"\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "code": 200,
+                                    "message": "OK"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "headers",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
+                            }
+                        },
+                        {
+                            "name": "body",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"armed\":{\"type\":\"string\"}}"
+                            }
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "code",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "message",
+                            "type": "string"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]},\"body\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"armed\":{\"type\":\"string\"}}}}}",
+                        "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"message\":{\"type\":\"string\",\"required\":false}},\"required\":[]}"
+                    }
+                },
+                "explicitReply": true
+            }
+        },
+        {
+            "id": "flow:FlightMode",
+            "data": {
+                "name": "FlightMode",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "MQTTPub",
+                        "to": "Return",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "MQTTPub",
+                        "name": "MQTTPub",
+                        "description": "An MQTT message publisher",
+                        "activity": {
+                            "ref": "#publish",
+                            "input": {
+                                "Connection": {
+                                    "id": "73031330-ada2-11ea-814f-39f6184b81d1",
+                                    "type": "flogo:connector",
+                                    "version": "1.1.0",
+                                    "name": "connection",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "MQTT Connector",
+                                    "description": "MQTT Connector",
+                                    "ref": "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/connector/connection",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "visible": true
+                                            },
+                                            "value": "streamhub"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "visible": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "broker",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Broker URL",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "Description": "Enter a broker URL in the form '<protocol>://<host>:<port>'"
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Broker_URL\"]"
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Username",
+                                                "visible": true,
+                                                "Description": "Enter a username if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Username\"]"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Password",
+                                                "visible": true,
+                                                "type": "password",
+                                                "encryptable": true,
+                                                "Description": "Enter a password if this connection requires one",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Mqtt.streamhub.Password\"]"
+                                        },
+                                        {
+                                            "name": "encryptionMode",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Encryption Mode",
+                                                "description": "Choose the type of authentication to use",
+                                                "appPropertySupport": true
+                                            },
+                                            "allowed": [
+                                                "None",
+                                                "TLS-Cert",
+                                                "TLS-ClientAuth"
+                                            ],
+                                            "value": "=$property[\"Mqtt.streamhub.Encryption_Mode\"]"
+                                        },
+                                        {
+                                            "name": "cacert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Cacert",
+                                                "description": "Select the CA certificate file used to sign the broker's certificate",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientcert",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Cert",
+                                                "description": "Select the client certificate file for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientkey",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Client Key",
+                                                "description": "Select the client key file used for connections requiring client auth",
+                                                "visible": false,
+                                                "type": "fileselector",
+                                                "fileExtensions": [
+                                                    ".key",
+                                                    ".pem"
+                                                ],
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "Tibco",
+                                    "key": "Tibco/Mqtt/connector/connection/connector.json",
+                                    "display": {
+                                        "description": "MQTT Connector",
+                                        "category": "Mqtt",
+                                        "smallIcon": "icons/mqtt.png",
+                                        "largeIcon": "icons/mqtt.png",
+                                        "visible": true
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Save"
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1594042482520,
+                                    "user": "flogo",
+                                    "connectorName": "streamhub",
+                                    "connectorDescription": " "
+                                },
+                                "topic": "drone/flightmode",
+                                "retain": false,
+                                "qos": 0,
+                                "valueType": "JSON",
+                                "stringValue": "",
+                                "jsonValue": {
+                                    "mapping": {
+                                        "flight_mode": "=$flow.body.flight_mode",
+                                        "drone_id": "=$property[\"drone-id\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "jsonValue": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"drone_id\":{\"type\":\"string\"},\"flight_mode\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\n    \"drone_id\" : \"123\",\n   \"flight_mode\" : \"mode\"\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "code": 200,
+                                    "message": "OK"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "headers",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}}"
+                            }
+                        },
+                        {
+                            "name": "body",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"flight_mode\":{\"type\":\"string\"}}"
+                            }
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "code",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "message",
+                            "type": "string"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"headers\":{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]},\"body\":{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"flight_mode\":{\"type\":\"string\"}}}}}",
+                        "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"message\":{\"type\":\"string\",\"required\":false}},\"required\":[]}"
+                    }
+                },
+                "explicitReply": true
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "drone-id",
+            "type": "string",
+            "value": "123"
+        },
+        {
+            "name": "Mqtt.streamhub.Broker_URL",
+            "type": "string",
+            "value": "18.231.101.247:1883"
+        },
+        {
+            "name": "Mqtt.streamhub.Username",
+            "type": "string",
+            "value": ""
+        },
+        {
+            "name": "Mqtt.streamhub.Password",
+            "type": "string",
+            "value": "SECRET:dPLr/6LFk25ViBhtyU5pMg=="
+        },
+        {
+            "name": "Mqtt.streamhub.Encryption_Mode",
+            "type": "string",
+            "value": "None"
+        }
+    ],
+    "connections": {},
+    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1tcXR0LmdpdC9NcXR0IiwiczNsb2NhdGlvbiI6IlRpYmNvL01xdHQifV0=",
+    "fe_metadata": "UEsDBAoAAAAIAHGE9VCrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACABxhPVQq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+}
