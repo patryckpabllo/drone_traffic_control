@@ -6,36 +6,35 @@ Tool set in order to build a distributed drone traffic monitoring system based o
  - Git
  - PX4 and MAVSDK Dev kit including simulator jMAVSim and QGroundstation
  - QGroundstation
- - Flogo (Co-processor - Edge Computing)
+ - Flogo Enterprise (Co-processor - Edge Computing)
  - MQTT (Transport Layer)
 
 # Setup the Environment
  - Go to $HOME dir
  - Create directory PX4 and enter inside: mkdir PX4; cd PX4
- - Install the Unbutu PX4 Firmware and Simulator in https://mavsdk.mavlink.io/develop/en/cpp/quickstart.html. 
+ - Install the Unbutu PX4 Firmware and Simulator: https://mavsdk.mavlink.io/develop/en/cpp/quickstart.html. 
    - Session to cover: Setting up a Simulator (don't skip step 3)
- - Build MAVSDK Library following the instructions: https://mavsdk.mavlink.io/develop/en/contributing/build.html#install-artifacts
- - Install QGroundstation in https://docs.qgroundcontrol.com/en/getting_started/download_and_install.html
- - Install Qt5 lib and QTCreator in http://web.stanford.edu/class/archive/cs/cs106b/cs106b.1154/qtcreator/installation/linux_gui_install/index.html
- - Install golang in: https://golang.org/doc/install
- - Install docker typing: sudo apt install docker.io
- - Install Flogo Web Ui in: https://tibcosoftware.github.io/flogo/getting-started/getting-started-webui/
+ - Build MAVSDK Library following: https://mavsdk.mavlink.io/develop/en/contributing/build.html#install-artifacts
+ - Install QGroundstation: https://docs.qgroundcontrol.com/en/getting_started/download_and_install.html
+ - Install Qt5 lib and QTCreator: http://web.stanford.edu/class/archive/cs/cs106b/cs106b.1154/qtcreator/installation/linux_gui_install/index.html
+ - Download and Install TIBCO Flogo Enterprise: wwww.edelivery.tibco.com 
  
 ## Build 
 
-- Go to $HOME dir
+- Go to $HOME/PX4 dir
 - Clone the code: git clone https://github.com/patryckpabllo/drone_traffic_control.git
+- Enter in drone_traffic_contol folder
 
 - Build and install the driver
-  - Go to drone_traffic folder
+  - Go to mavlink_driver folder
   - Create build dir: mkdir build
   - Enter in build dir: cd build
   - type: cmake ..
   - after : make
     - Wait compile the driver 
-  - Install typing: make install
+  - Install the driver on system typing: make install
   - Test typing: http_server
-  - You could see like below:
+  - You should see like below:
  
 patryck@ubuntu:~/drone_traffic_control/mavlink_driver/build$ ./http_server 
 [11:18:11|Info ] MAVSDK version: 0.28.0 (mavsdk_impl.cpp:26)
@@ -47,7 +46,10 @@ Connection URL format should be :
 For example, to connect to the simulator use URL: udp://:14540
 
 - Build Flogo
-
-
+  - Run the Flogo Web UI
+  - Import the Telemetry project located in $HOME/PX4/drone_traffic_contol/flogo
+  - Build the project
+  - Download the executable Telemetry to /usr/bin
+  - Test typing: Telemetry
 
 # Execute the solution
