@@ -71,9 +71,9 @@ void httpClient(const std::string &method, const std::string &path, std::istream
 
 int is_result_error(const Telemetry::Result &result)
 {
-    if (result != Telemetry::Result::SUCCESS) {
+    if (result != Telemetry::Result::Success) {
         std::cout << ERROR_CONSOLE_TEXT
-                  << "Setting rate failed:" << Telemetry::result_str(result)
+                  << "Setting rate failed:" << result
                   << NORMAL_CONSOLE_TEXT << std::endl;
         return 1;
     }
@@ -102,9 +102,9 @@ int main(int argc, char** argv) {
       return 1;
   }
 
-  if (connection_result != ConnectionResult::SUCCESS) {
+  if (connection_result != ConnectionResult::Success) {
       std::cout << ERROR_CONSOLE_TEXT
-                << "Connection failed: " << connection_result_str(connection_result)
+                << "Connection failed: " << connection_result
                 << NORMAL_CONSOLE_TEXT << std::endl;
       return 1;
   }
@@ -144,7 +144,7 @@ int main(int argc, char** argv) {
   }
 
  // Set up callback to monitor battery while the vehicle is in flight
-  telemetry->position_async([](Telemetry::Position position) {
+  telemetry->subscribe_position([](Telemetry::Position position) {
       stringstream json_string;
 
       //Example: [lat: 47.3964, lon: 8.54649, abs_alt: 538.031, rel_alt: 49.993]
@@ -167,7 +167,7 @@ int main(int argc, char** argv) {
   }
 
   // Set up callback to monitor position while the vehicle is in flight
-  telemetry->battery_async([](Telemetry::Battery battery) {
+  telemetry->subscribe_battery([](Telemetry::Battery battery) {
       stringstream json_string;
 
       //Example: [voltage_v: 12.15, remaining_percent: 1]
@@ -187,32 +187,32 @@ int main(int argc, char** argv) {
     }
 
     // Set up callback to monitor position while the vehicle is in flight
-    telemetry->gps_info_async([](Telemetry::GPSInfo gpsInfo) {
+    telemetry->subscribe_gps_info([](Telemetry::GpsInfo gpsInfo) {
         stringstream json_string;
 
         /**< @brief Fix type (0: no GPS, 1: no fix, 2: 2D fix, 3: 3D fix, 4: DGPS fix,
                                              5: RTK float, 6: RTK fixed). */
         std::string fix = "";
         switch(gpsInfo.fix_type) {
-            case 0:
+            case Telemetry::FixType::NoGps:
                 fix = "no GPS";
                 break;
-            case 1:
+            case Telemetry::FixType::NoFix:
                 fix = "no fix";
                 break;
-            case 2:
+            case Telemetry::FixType::Fix2D:
                 fix = "2D fix";
                 break;
-            case 3:
+            case Telemetry::FixType::Fix3D:
                 fix = "3D fix";
                 break;
-            case 4:
+            case Telemetry::FixType::FixDgps:
                 fix = "DGPS fix";
                 break;
-            case 5:
+            case Telemetry::FixType::RtkFloat:
                 fix = "RTK float";
                 break;
-            case 6:
+            case Telemetry::FixType::RtkFixed:
                 fix = "RTK fixed";
                 break;
             default:
@@ -230,13 +230,13 @@ int main(int argc, char** argv) {
 
 
   {  // We want to listen to the gps info of the drone at 1 Hz.
-    const Telemetry::Result set_rate_home_position = telemetry->set_rate_home_position(1.0);
+    const Telemetry::Result set_rate_home_position = telemetry->set_rate_home(1.0);
     if (is_result_error(set_rate_home_position)) {
         return 1;
     }
 
     // Set up callback to monitor position while the vehicle is in flight
-    telemetry->home_position_async([](Telemetry::Position position) {
+    telemetry->subscribe_home([](Telemetry::Position position) {
         stringstream json_string;
 
         json_string << "{ "
@@ -257,7 +257,7 @@ int main(int argc, char** argv) {
     }
 
     // Set up callback to monitor position while the vehicle is in flight
-    telemetry->fixedwing_metrics_async([](Telemetry::FixedwingMetrics metrics) {
+    telemetry->subscribe_fixedwing_metrics([](Telemetry::FixedwingMetrics metrics) {
         stringstream json_string;
 
         json_string << "{ "
@@ -271,7 +271,7 @@ int main(int argc, char** argv) {
   }
 
   {  // We want to listen to the arm status of the drone
-    telemetry->armed_async([](bool armed) {
+    telemetry->subscribe_armed([](bool armed) {
         stringstream json_string;
 
         json_string << "{ "
@@ -283,11 +283,12 @@ int main(int argc, char** argv) {
   }
 
   {  // We want to listen to the arm status of the drone
-    telemetry->flight_mode_async([](Telemetry::FlightMode flight_mode) {
+    telemetry->subscribe_flight_mode([](Telemetry::FlightMode flight_mode) {
         stringstream json_string;
 
+
         json_string << "{ "
-                    << "\"flight_mode\" : \"" << Telemetry::flight_mode_str(flight_mode) << "\""
+                    << "\"flight_mode\" : \"" << flight_mode << "\""
                     << " }";
 
         httpClient("POST", "/flightmode", json_string);
