@@ -23,16 +23,17 @@ Tool set in order to build a distributed drone traffic monitoring system based o
 - Go to $HOME dir
 - Clone the code: git clone https://github.com/patryckpabllo/drone_traffic_control.git
 
-- Build the driver
+- Build and install the driver
   - Go to drone_traffic folder
   - Create build dir: mkdir build
   - Enter in build dir: cd build
   - type: cmake ..
   - after : make
-  - Wait compile the driver 
-  - Test typing: ./http_server
+    - Wait compile the driver 
+  - Install typing: make install
+  - Test typing: http_server
   - You could see like below:
-
+ 
 patryck@ubuntu:~/drone_traffic_control/mavlink_driver/build$ ./http_server 
 [11:18:11|Info ] MAVSDK version: 0.28.0 (mavsdk_impl.cpp:26)
 Usage : ./http_server <connection_url>
