@@ -7,7 +7,6 @@ Tool set in order to build a distributed drone traffic monitoring system based o
  - PX4 and MAVSDK Dev kit including simulator jMAVSim and QGroundstation
  - QGroundstation
  - Flogo Enterprise (Co-processor - Edge Computing)
- - MQTT (Transport Layer)
 
 # Setup the Environment
  - Go to $HOME dir
