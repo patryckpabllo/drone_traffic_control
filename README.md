@@ -42,5 +42,8 @@ Connection URL format should be :
  For Serial : serial:///path/to/serial/dev[:baudrate]
 For example, to connect to the simulator use URL: udp://:14540
 
+- Build Flogo
+
+
 
 # Execute the solution
