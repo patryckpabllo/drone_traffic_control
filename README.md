@@ -18,7 +18,8 @@ Tool set in order to build a distributed drone traffic monitoring system based o
  - Install QGroundstation in https://docs.qgroundcontrol.com/en/getting_started/download_and_install.html
  - Install Qt5 lib and QTCreator in http://web.stanford.edu/class/archive/cs/cs106b/cs106b.1154/qtcreator/installation/linux_gui_install/index.html
  - Install golang in: https://golang.org/doc/install
- - Install Flogo CLI in:https://tibcosoftware.github.io/flogo/getting-started/getting-started-cli/
+ - Install docker typing: sudo apt install docker.io
+ - Install Flogo Web Ui in: https://tibcosoftware.github.io/flogo/getting-started/getting-started-webui/
  
 ## Build 
 
