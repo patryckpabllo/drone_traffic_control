@@ -49,7 +49,9 @@ For example, to connect to the simulator use URL: udp://:14540
   - Run the Flogo Web UI
   - Import the Telemetry project located in $HOME/PX4/drone_traffic_contol/flogo
   - Build the project
-  - Download the executable Telemetry to /usr/bin
+  - Download the executable to Download folder
+  - Apply exection permission: chmod 777 telemetry 
+  - Move to bin area: mv telemetry /usr/bin
   - Test typing: Telemetry
 
 # Execute the solution
