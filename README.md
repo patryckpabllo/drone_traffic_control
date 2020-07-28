@@ -61,7 +61,7 @@ For example, to connect to the simulator use URL: udp://:14540
     - For display remove the HEADLESS variable
     
 - Start the Flogo application
-  - type VAR=XXX telemetry
+  - type: FLOGO_APP_PROPS_ENV=auto Mqtt_streamhub_Broker_URL="52.67.94.207:1883" telemetry
   
 - Start mavlink driver
   -  type: http_server udp://:14540
