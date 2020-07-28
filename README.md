@@ -55,3 +55,13 @@ For example, to connect to the simulator use URL: udp://:14540
   - Test typing: Telemetry
 
 # Execute the solution
+- Start the Simulator
+  - Enter $HOME/PX4/Firmaware
+  - No simulator display type: HEADLESS=1 make px4_sitl jmavsim
+    - For display remove the HEADLESS variable
+    
+- Start the Flogo application
+  - type VAR=XXX telemetry
+  
+- Start mavlink driver
+  -  type: http_server udp://:14540
