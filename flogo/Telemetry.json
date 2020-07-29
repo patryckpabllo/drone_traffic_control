@@ -566,7 +566,7 @@
                                         "longitude": "=$flow.body.longitude",
                                         "abs_altitude": "=$flow.body.abs_altitude",
                                         "rel_altitude": "=$flow.body.rel_altitude",
-                                        "drone_id": "=$property[\"drone-id\"]"
+                                        "drone_id": "=$property[\"droneId\"]"
                                     }
                                 }
                             },
@@ -841,7 +841,7 @@
                                     "mapping": {
                                         "voltage": "=$flow.body.voltage",
                                         "remaining_percent": "=$flow.body.remaining_percent",
-                                        "drone_id": "=$property[\"drone-id\"]"
+                                        "drone_id": "=$property[\"droneId\"]"
                                     }
                                 }
                             },
@@ -1116,7 +1116,7 @@
                                     "mapping": {
                                         "fix_type": "=$flow.body.fix_type",
                                         "num_satellites": "=$flow.body.num_satellites",
-                                        "drone_id": "=$property[\"drone-id\"]"
+                                        "drone_id": "=$property[\"droneId\"]"
                                     }
                                 }
                             },
@@ -1393,7 +1393,7 @@
                                         "abs_altitude": "=$flow.body.abs_altitude",
                                         "rel_altitude": "=$flow.body.rel_altitude",
                                         "latitude": "=$flow.body.latitude",
-                                        "drone_id": "=$property[\"drone-id\"]"
+                                        "drone_id": "=$property[\"droneId\"]"
                                     }
                                 }
                             },
@@ -1669,7 +1669,7 @@
                                         "airspeed": "=$flow.body.airspeed",
                                         "climb_rate": "=$flow.body.climb_rate",
                                         "throttle": "=$flow.body.throttle",
-                                        "drone_id": "=$property[\"drone-id\"]"
+                                        "drone_id": "=$property[\"droneId\"]"
                                     }
                                 }
                             },
@@ -1943,7 +1943,7 @@
                                 "jsonValue": {
                                     "mapping": {
                                         "armed": "=$flow.body.armed",
-                                        "drone_id": "=$property[\"drone-id\"]"
+                                        "drone_id": "=$property[\"droneId\"]"
                                     }
                                 }
                             },
@@ -2217,7 +2217,7 @@
                                 "jsonValue": {
                                     "mapping": {
                                         "flight_mode": "=$flow.body.flight_mode",
-                                        "drone_id": "=$property[\"drone-id\"]"
+                                        "drone_id": "=$property[\"droneId\"]"
                                     }
                                 }
                             },
@@ -2287,11 +2287,6 @@
     ],
     "properties": [
         {
-            "name": "drone-id",
-            "type": "string",
-            "value": "123"
-        },
-        {
             "name": "Mqtt.streamhub.Broker_URL",
             "type": "string",
             "value": "18.231.101.247:1883"
@@ -2304,15 +2299,20 @@
         {
             "name": "Mqtt.streamhub.Password",
             "type": "string",
-            "value": "SECRET:dPLr/6LFk25ViBhtyU5pMg=="
+            "value": "SECRET:48mjwu5j73PeMmvd2yvP/w=="
         },
         {
             "name": "Mqtt.streamhub.Encryption_Mode",
             "type": "string",
             "value": "None"
+        },
+        {
+            "name": "droneId",
+            "type": "string",
+            "value": "123"
         }
     ],
     "connections": {},
     "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1tcXR0LmdpdC9NcXR0IiwiczNsb2NhdGlvbiI6IlRpYmNvL01xdHQifV0=",
-    "fe_metadata": "UEsDBAoAAAAIAHGE9VCrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACABxhPVQq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+    "fe_metadata": "UEsDBAoAAAAIAMWk/VCrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACADFpP1Qq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
 }
