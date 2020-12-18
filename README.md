@@ -44,14 +44,23 @@ Connection URL format should be :
  For Serial : serial:///path/to/serial/dev[:baudrate]
 For example, to connect to the simulator use URL: udp://:14540
 
-- Build Flogo
+- Build Flogo Telemetry
   - Run the Flogo Web UI
   - Import the Telemetry project located in $HOME/PX4/drone_traffic_contol/flogo
   - Build the project
   - Download the executable to Download folder
   - Apply exection permission: chmod 777 telemetry 
   - Move to bin area: mv telemetry /usr/bin
-  - Test typing: Telemetry
+  - Test typing: telemetry
+
+- Build Flogo SensorFeed (Optional)
+  - Run the Flogo Web UI
+  - Import the Telemetry project located in $HOME/PX4/drone_traffic_contol/flogo
+  - Build the project
+  - Download the executable to Download folder
+  - Apply exection permission: chmod 777 sensorFeed 
+  - Move to bin area: mv sensorFeed /usr/bin
+  - Test typing: sensorFeed
 
 # Execute the solution
 - Start the Simulator
@@ -59,8 +68,11 @@ For example, to connect to the simulator use URL: udp://:14540
   - No simulator display type: HEADLESS=1 make px4_sitl jmavsim
     - For display remove the HEADLESS variable
     
-- Start the Flogo application
+- Start the Flogo Telemetry application
   - type: FLOGO_APP_PROPS_ENV=auto Mqtt_streamhub_Broker_URL="52.67.94.207:1883" telemetry
+  
+- Start the Flogo SensorFeed application (Optional)
+  - type: FLOGO_APP_PROPS_ENV=auto Mqtt_streamhub_Broker_URL="52.67.94.207:1883" sensorFilter="MTRFF0009993" sensorfeed
   
 - Start mavlink driver
   -  type: http_server udp://:14540
