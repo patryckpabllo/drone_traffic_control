@@ -72,7 +72,7 @@ For example, to connect to the simulator use URL: udp://:14540
   - type: FLOGO_APP_PROPS_ENV=auto Mqtt_streamhub_Broker_URL="52.67.94.207:1883" telemetry
   
 - Start the Flogo SensorFeed application (Optional)
-  - type: FLOGO_APP_PROPS_ENV=auto Mqtt_streamhub_Broker_URL="52.67.94.207:1883" sensorFilter="MTRFF0009993" sensorfeed
+  - type: FLOGO_APP_PROPS_ENV=auto Mqtt_streamhub_Broker_URL="52.67.94.207:1883" sensorFilter="MTRFF0009993" port="80" sensorfeed
   
 - Start mavlink driver
   -  type: http_server udp://:14540
